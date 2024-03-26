@@ -4,6 +4,7 @@ local M = {}
 ---@field name string plugin name
 ---@field handle string owner/repo
 ---@field url string plugin url
+---@field author string plugin author
 
 ---@param plugin_manager string
 ---@return Plugin[]
@@ -25,11 +26,19 @@ M.get_plugins = function(plugin_manager)
 		local name = plugin.name
 		local url = plugin.url
 
-		table.insert(plugins, {
-			name = name,
-			handle = handle,
-			url = url,
-		})
+		if url:find("https://github.com") then
+			local name_parts = vim.split(handle, "/")
+			if #name_parts == 2 then
+				local author = name_parts[1]
+
+				table.insert(plugins, {
+					name = name,
+					handle = handle,
+					url = url,
+					author = author,
+				})
+			end
+		end
 	end
 
 	return plugins
