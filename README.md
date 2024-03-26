@@ -55,7 +55,7 @@ require("thanks").setup({
 | Option            | Type    | Description                                                                                                                                        | Default value |
 | ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
 | `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support lazy.nvim for now)                                                                             |               |
-| `star_on_startup` | Boolean | Automatically run at startup, so you can forget about it and it will automatically star your new plugins (a cache is used to speed up the process) | `true`        |
+| `star_on_startup` | Boolean | Automatically run on startup, so you can forget about it and it will automatically star your new plugins (a cache is used to speed up the process) | `true`        |
 | `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                         | `{}`          |
 | `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                              | `{}`          |
 
