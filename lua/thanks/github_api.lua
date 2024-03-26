@@ -43,7 +43,7 @@ end
 
 local function open_signin_popup(code, url)
 	local lines = {
-		" [Copilot] ",
+		" [thanks.nvim] ",
 		"",
 		" First copy your one-time code: ",
 		"   " .. code .. " ",
