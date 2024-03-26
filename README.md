@@ -46,18 +46,18 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 -- Those are the default values and can be ommited (except plugin_manager)
 require("thanks").setup({
 	plugin_manager = "",
-	star_on_install = true,
+	star_on_startup = true,
 	ignore_repos = {},
 	ignore_authors = {},
 })
 ```
 
-| Option            | Type    | Description                                                                                                                                     | Default value |
-| ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support lazy.nvim for now)                                                                          |               |
-| `star_on_install` | Boolean | Automatically star when you install a new plugin (will star everything, not only the new plugin, same as calling `:ThanksAll` after an install) | `true`        |
-| `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                      | `{}`          |
-| `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                           | `{}`          |
+| Option            | Type    | Description                                                                                                                                        | Default value |
+| ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support lazy.nvim for now)                                                                             |               |
+| `star_on_startup` | Boolean | Automatically run at startup, so you can forget about it and it will automatically star your new plugins (a cache is used to speed up the process) | `true`        |
+| `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                         | `{}`          |
+| `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                              | `{}`          |
 
 ## 🧰 Commands
 

@@ -2,7 +2,7 @@ local M = {}
 
 M.default_config = {
 	plugin_manager = "",
-	star_on_install = true,
+	star_on_startup = true,
 	ignore_repos = {},
 	ignore_authors = {},
 }
@@ -106,14 +106,20 @@ M.setup = function(options)
 		vim.notify("Cleared starred plugins cache", vim.log.levels.INFO)
 	end, {})
 
-	if M.config.star_on_install then
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "LazyInstall",
-			once = true,
-			callback = function()
-				M.star_all(false)
-			end,
-		})
+	if M.config.star_on_startup then
+		-- LazyInstall is only triggered after :Lazy sync, not on startup, check why this doesn't work later
+		-- vim.api.nvim_create_autocmd("User", {
+		-- 	pattern = "LazyInstall",
+		-- 	once = true,
+		-- 	callback = function()
+		-- 		M.star_all(false)
+		-- 	end,
+		-- })
+
+		-- Trigger star_all on startup
+		vim.schedule(function()
+			M.star_all(false)
+		end)
 	end
 end
 
