@@ -79,7 +79,7 @@ rm path/to/jsongerber-thanks.json
 To find the path of this file, you can run the following command in neovim:
 
 ```vim
-:lua vim.fn.stdpath("data") .. "/jsongerber-thanks.json"
+:lua vim.print(vim.fn.stdpath("data") .. "/jsongerber-thanks.json")
 ```
 
 ## ⌨ Contributing
