@@ -86,11 +86,6 @@ To find the path of this file, you can run the following command in neovim:
 
 PRs and issues are always welcome. Make sure to provide as much context as possible when opening one.
 
-## 🎭 Motivations
-
-Inspired by the VS Code plugin [px to rem & rpx & vw (cssrem)](https://marketplace.visualstudio.com/items?itemName=cipchk.cssrem).  
-There is two vim plugin to convert px to \(r\)em but those were missing some feature I wanted such as the virtual text and the nvim-cmp integration:
-
 ## 📝 TODO (will do if there is demand (open issue or PR))
 
 -   [ ] Other plugin managers
