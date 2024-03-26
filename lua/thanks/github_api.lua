@@ -210,4 +210,16 @@ function GithubApi:star(plugin)
 	vim.notify("Successfully starred " .. plugin.name, vim.log.levels.INFO)
 end
 
+function GithubApi:logout()
+	-- Can't really logout from GitHub, so just remove the token
+	local data = require("thanks.utils").read_persisted_data()
+	data.auth = nil
+	require("thanks.utils").persist_data(data)
+
+	vim.notify(
+		"Successfully logged out from GitHub! (You need to manually revoke the app access here: https://github.com/settings/applications)",
+		vim.log.levels.INFO
+	)
+end
+
 return GithubApi
