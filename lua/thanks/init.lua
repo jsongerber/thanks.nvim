@@ -59,7 +59,7 @@ local function star_interval(github, plugins, index, stats, called_from_command)
 	end
 
 	stats.starred = stats.starred + 1
-	-- github:star(plugins[index])
+	github:star(plugins[index])
 
 	-- Save the starred plugin
 	table.insert(starred_plugins, plugins[index].handle)
