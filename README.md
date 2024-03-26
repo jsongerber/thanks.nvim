@@ -8,6 +8,22 @@ Automatically star all the Neovim plugins you use.
 > Only works with [lazy.nvim](https://github.com/folke/lazy.nvim).  
 > Please open an issue or PR if you want to use it with another plugin manager.
 
+## 🚀 Usage
+
+After installing thanks.nvim, you must first log in to GitHub using the `:ThanksGithubAuth` command. This step is necessary only once.
+
+Once you're authenticated, you can star all the installed plugins using the `:ThanksAll` command.  
+The initial run may take a minute if you have a lot of plugins, but next runs will be faster due to the utilization of a local cache.  
+The local cache can be deleted using the `:ThanksClearCache` command. It will be recreated the next time you execute `:ThanksAll`.
+
+With the default configuration, every time a new plugin is installed, `:ThanksAll` will be automatically executed.
+
+## 🔧 Requirements and dependencies
+
+-   [lazy.nvim](https://github.com/folke/lazy.nvim)
+-   Linux or MacOs: not tested on Windows but should **NOT** work, PRs are welcome.
+-   cURL: if you don't have curl installed, use your favorite plugin manager to install it.
+
 ## 📋 Installation
 
 -   With [lazy.nvim](https://github.com/folke/lazy.nvim)
@@ -16,75 +32,54 @@ Automatically star all the Neovim plugins you use.
 -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
 {
     'jsongerber/thanks.nvim',
-    config = true,
-    --If you need to set some options replace the line above with:
-    -- config = function()
-    --     require('thanks').setup()
-    -- end,
+    config = function()
+        require('thanks').setup({
+            plugin_manager = "lazy",
+        })
+    end,
 }
 ```
 
 ## ⚙ Configuration
 
 ```lua
--- Those are the default values and can be ommited
-require("nvim-px-to-rem").setup({
-    root_font_size = 16,
-    decimal_count = 4,
-    show_virtual_text = true,
-    add_cmp_source = true,
-    disable_keymaps = false,
-    filetypes = {
-        "css",
-        "scss",
-        "sass",
-    },
+-- Those are the default values and can be ommited (except plugin_manager)
+require("thanks").setup({
+	plugin_manager = "",
+	star_on_install = true,
+	ignore_repos = {},
+	ignore_authors = {},
 })
 ```
 
-| Option              | Description                                                                                                      | Default value             |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------- |
-| `root_font_size`    | The font size used to convert px to rem                                                                          | `16`                      |
-| `decimal_count`     | The number of decimal to keep when converting px to rem                                                          | `4`                       |
-| `show_virtual_text` | Show the rem value converted in px in a virtual text                                                             | `true`                    |
-| `add_cmp_source`    | Add a nvim-cmp source to convert px to rem as you type (require [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)) | `true`                    |
-| `disable_keymaps`   | Disable the default keymaps                                                                                      | `false`                   |
-| `filetypes`         | The filetypes to enable the plugin on                                                                            | `{"css", "scss", "sass"}` |
-
-### nvim-cmp integration
-
-If you want to be able to convert px to rem as you type you need to install [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) and add the plugin to your cmp sources:
-
-```lua
-require("cmp").setup({
-    -- other config
-    sources = cmp.config.sources({
-        { name = "nvim_px_to_rem" },
-        -- other sources
-    }),
-})
-```
+| Option            | Type    | Description                                                                                                                                     | Default value |
+| ----------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support lazy.nvim for now)                                                                          |               |
+| `star_on_install` | Boolean | Automatically star when you install a new plugin (will star everything, not only the new plugin, same as calling `:ThanksAll` after an install) | `true`        |
+| `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                      | `{}`          |
+| `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                           | `{}`          |
 
 ## 🧰 Commands
 
-| Command          | Description                         |
-| ---------------- | ----------------------------------- |
-| `:PxToRemCursor` | Convert px to rem under cursor      |
-| `:PxToRemLine`   | Convert px to rem on the whole line |
+| Command               | Description                                                                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `:ThanksAll`          | Star all the plugins you have installed                                                                                                                                               |
+| `:ThanksGithubAuth`   | Authenticate with your GitHub account                                                                                                                                                 |
+| `:ThanksGithubLogout` | Logout of your GitHub account (this command only delete the locally saved access token, [you still need to revoke app permission manually](https://github.com/settings/applications)) |
+| `:ThanksClearCache`   | Delete local cache of starred plugins                                                                                                                                                 |
 
-## 📚 Keymaps
+## 🗑️ Uninstall
 
-| Keymap        | Description                         |
-| ------------- | ----------------------------------- |
-| `<leader>px`  | Convert px to rem under cursor      |
-| `<leader>pxl` | Convert px to rem on the whole line |
+Uninstall the plugin as you normally would, if you want to clean everything, you can delete the cache file and the saved access token:
 
-You can disable the default keymaps by setting `disable_keymaps` to `true` and then create your own:
+```sh
+rm path/to/jsongerber-thanks.json
+```
 
-```lua
--- Those are the default keymaps, you can change them to whatever you want
-vim.api.nvim_set_keymap("n", "<leader>px", ":PxToRemCursor<CR>", {noremap = true})
-vim.api.nvim_set_keymap("n", "<leader>pxl", ":PxToRemLine<CR>", {noremap = true})
+To find the path of this file, you can run the following command in neovim:
+
+```vim
+:lua vim.fn.stdpath("data") .. "/jsongerber-thanks.json"
 ```
 
 ## ⌨ Contributing
@@ -96,15 +91,11 @@ PRs and issues are always welcome. Make sure to provide as much context as possi
 Inspired by the VS Code plugin [px to rem & rpx & vw (cssrem)](https://marketplace.visualstudio.com/items?itemName=cipchk.cssrem).  
 There is two vim plugin to convert px to \(r\)em but those were missing some feature I wanted such as the virtual text and the nvim-cmp integration:
 
--   [vim-px-to-em](https://github.com/chiedo/vim-px-to-em)
--   [vim-px-to-rem](https://github.com/Oldenborg/vim-px-to-rem)
+## 📝 TODO (will do if there is demand (open issue or PR))
 
-## 📝 TODO
-
--   [ ] Use Treesitter
--   [ ] Write tests
--   [ ] Write documentation
+-   [ ] Other plugin managers
+-   [ ] Unstar on uninstall
 
 ## 📜 License
 
-MIT © [jsongerber](https://github.com/jsongerber/nvim-px-to-rem/blob/master/LICENSE)
+MIT © [jsongerber](https://github.com/jsongerber/thanks/blob/master/LICENSE)
