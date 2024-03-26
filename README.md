@@ -2,46 +2,24 @@
 
 > Never forget to star a repo
 
-A Neovim plugin written in lua to convert px to rem as you type. It also provide commands and keymaps to convert px to rem and a virtual text to visualize your rem values.
+Automatically star all the Neovim plugins you use.
 
-## ⚡️ Features
-
--   Easily convert px to rem as you type (require [nvim-cmp](https://github.com/hrsh7th/nvim-cmp))
--   Convert px to rem on a single value or a whole line
--   Visualize your rem values in a virtual text
+> [!NOTE]  
+> Only works with [lazy.nvim](https://github.com/folke/lazy.nvim).  
+> Please open an issue or PR if you want to use it with another plugin manager.
 
 ## 📋 Installation
 
--   With [packer.nvim](https://github.com/wbthomason/packer.nvim)
-
-```lua
-use {
-    'jsongerber/nvim-px-to-rem',
-    config = function()
-        require('nvim-px-to-rem').setup()
-    end
-}
-```
-
--   With [vim-plug](https://github.com/junegunn/vim-plug)
-
-```lua
-Plug 'jsongerber/nvim-px-to-rem
-
-" Somewhere after plug#end()
-lua require('nvim-px-to-rem').setup()
-```
-
--   With [folke/lazy.nvim](https://github.com/folke/lazy.nvim)
+-   With [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
 {
-    'jsongerber/nvim-px-to-rem',
+    'jsongerber/thanks.nvim',
     config = true,
     --If you need to set some options replace the line above with:
     -- config = function()
-    --     require('nvim-px-to-rem').setup()
+    --     require('thanks').setup()
     -- end,
 }
 ```
