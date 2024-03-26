@@ -206,8 +206,6 @@ function GithubApi:star(plugin)
 		vim.notify(errorR.error_description, vim.log.levels.ERROR)
 		return
 	end
-
-	vim.notify("Successfully starred " .. plugin.name, vim.log.levels.INFO)
 end
 
 function GithubApi:logout()

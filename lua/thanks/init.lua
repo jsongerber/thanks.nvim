@@ -67,7 +67,7 @@ local function star_interval(github, plugins, index, stats, called_from_command)
 	require("thanks.utils").persist_data(data)
 
 	vim.defer_fn(function()
-		vim.notify("Starred " .. plugins[index].name, vim.log.levels.INFO)
+		vim.notify("Successfully starred " .. plugins[index].name, vim.log.levels.INFO)
 
 		star_interval(github, plugins, index + 1, stats, called_from_command)
 	end, 500)
