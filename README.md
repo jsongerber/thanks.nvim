@@ -5,7 +5,7 @@
 Automatically star all the Neovim plugins you use.
 
 > [!NOTE]  
-> Only works with [lazy.nvim](https://github.com/folke/lazy.nvim).  
+> Only works with [lazy.nvim](https://github.com/folke/lazy.nvim) and [packer](https://github.com/wbthomason/packer.nvim).  
 > Please open an issue or PR if you want to use it with another plugin manager.
 
 ## 🚀 Usage
@@ -20,7 +20,7 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 
 ## 🔧 Requirements and dependencies
 
--   [lazy.nvim](https://github.com/folke/lazy.nvim)
+-   A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) or [packer](https://github.com/wbthomason/packer.nvim)
 -   Linux or MacOs: not tested on Windows but should **NOT** work, PRs are welcome.
 -   cURL: if you don't have curl installed, use your favorite plugin manager to install it.
 
@@ -40,24 +40,39 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 }
 ```
 
+-   With [packer](https://github.com/wbthomason/packer.nvim)
+
+```lua
+use({
+    'jsongerber/thanks.nvim',
+    config = function()
+        require("thanks").setup({
+            plugin_manager = "packer",
+        })
+    end,
+})
+```
+
 ## ⚙ Configuration
 
 ```lua
 -- Those are the default values and can be ommited (except plugin_manager)
 require("thanks").setup({
 	plugin_manager = "",
-	star_on_startup = true,
+	star_on_startup = false,
+    star_on_install = true,
 	ignore_repos = {},
 	ignore_authors = {},
 })
 ```
 
-| Option            | Type    | Description                                                                                                                                        | Default value |
-| ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support lazy.nvim for now)                                                                             |               |
-| `star_on_startup` | Boolean | Automatically run on startup, so you can forget about it and it will automatically star your new plugins (a cache is used to speed up the process) | `true`        |
-| `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                         | `{}`          |
-| `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                              | `{}`          |
+| Option            | Type    | Description                                                                                                                                            | Default value |
+| ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
+| `plugin_manager`  | String  | Mandatory: The plugin manager you use (only support Lazy and Packer for now)                                                                           |               |
+| `star_on_install` | Boolean | Automatically run on **install**, so you can forget about it and it will automatically star your new plugins (a cache is used to speed up the process) | `true`        |
+| `star_on_startup` | Boolean | Same that `star_on_install`, but run on startup so it check if you have any new plugins everytime you open Neovim                                      | `false`       |
+| `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                             | `{}`          |
+| `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                                  | `{}`          |
 
 ## 🧰 Commands
 
@@ -90,6 +105,7 @@ PRs and issues are always welcome. Make sure to provide as much context as possi
 
 -   [ ] Other plugin managers
 -   [ ] Unstar on uninstall
+-   [ ] Automatically detect plugin manager
 
 ## 📜 License
 
