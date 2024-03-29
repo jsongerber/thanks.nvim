@@ -32,11 +32,9 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 -- add this to your lua/plugins.lua, lua/plugins/init.lua,  or the file you keep your other plugins:
 {
     'jsongerber/thanks.nvim',
-    config = function()
-        require('thanks').setup({
-            plugin_manager = "lazy",
-        })
-    end,
+    opts = {
+        plugin_manager = "lazy",
+    }
 }
 ```
 
