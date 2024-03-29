@@ -3,6 +3,7 @@ local M = {}
 M.default_config = {
 	plugin_manager = "",
 	star_on_startup = true,
+	star_on_install = true,
 	ignore_repos = {},
 	ignore_authors = {},
 }
@@ -78,8 +79,8 @@ M.setup = function(options)
 	-- Set the options
 	M.config = M.get_config(options)
 
-	if M.config.plugin_manager ~= "lazy" then
-		vim.notify("Only lazy plugin manager is supported at the moment", vim.log.levels.ERROR)
+	if M.config.plugin_manager ~= "lazy" and M.config.plugin_manager ~= "packer" then
+		vim.notify("Only Lazy and Packer plugin manager is supported at the moment", vim.log.levels.ERROR)
 		return
 	end
 
@@ -113,6 +114,25 @@ M.setup = function(options)
 		vim.schedule(function()
 			M.star_all(false)
 		end)
+	end
+
+	if M.config.star_on_install then
+		local event = ""
+		if M.config.plugin_manager == "lazy" then
+			event = "LazyInstall"
+		elseif M.config.plugin_manager == "packer" then
+			event = "PackerComplete"
+		end
+
+		vim.api.nvim_create_autocmd({ "user" }, {
+			group = vim.api.nvim_create_augroup("ThanksStarAll", {
+				clear = true,
+			}),
+			pattern = event,
+			callback = function()
+				M.star_all(false)
+			end,
+		})
 	end
 end
 
