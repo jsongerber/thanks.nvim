@@ -26,7 +26,7 @@ M.get_plugins = function(plugin_manager)
 		local name = plugin.name
 		local url = plugin.url
 
-		if url:find("https://github.com") then
+		if url and url:find("https://github.com") then
 			local name_parts = vim.split(handle, "/")
 			if #name_parts == 2 then
 				local author = name_parts[1]
