@@ -56,11 +56,11 @@ use({
 ```lua
 -- Those are the default values and can be ommited (except plugin_manager)
 require("thanks").setup({
-	plugin_manager = "",
-	star_on_startup = false,
+    plugin_manager = "",
+    star_on_startup = false,
     star_on_install = true,
-	ignore_repos = {},
-	ignore_authors = {},
+    ignore_repos = {},
+    ignore_authors = {},
 })
 ```
 
