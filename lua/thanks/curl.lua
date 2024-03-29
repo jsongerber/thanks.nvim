@@ -34,7 +34,6 @@ M.curl = function(method, url, headers, data)
 	local response = vim.fn.system(curl_command)
 
 	if vim.fn.trim(response) == "error" then
-		vim.print(curl_command)
 		return nil, {
 			error = "api_error",
 			error_description = "Error in response from Github",

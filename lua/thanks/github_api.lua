@@ -21,7 +21,6 @@ local GithubApi = {}
 GithubApi.__index = GithubApi
 function GithubApi:new()
 	return setmetatable({
-		-- client_id = "Iv1.f49b8eaaa67d69c0",
 		client_id = "02a6f4a30c2cb467b535",
 	}, self)
 end
@@ -127,26 +126,23 @@ function GithubApi:checkDeviceRegistered(device, time_passed, add_to_buff, close
 		check_response = check_response --[[@as AuthResponse]]
 
 		if errorR then
+			-- Possible error messages are
+			-- - authorization_pending
+			-- - slow_down
+			-- - expired_token
+			-- - incorrect_device_code
+			-- - access_denied
 			if errorR.error == "authorization_pending" then
 				-- Still wating, do nothing
 				self:checkDeviceRegistered(device, time_passed, add_to_buff, close_popup)
 			elseif errorR.error == "slow_down" then
 				device.interval = errorR.interval
 				self:checkDeviceRegistered(device, time_passed, add_to_buff, close_popup)
-			-- elseif errorR.error == "expired_token" then
-			-- elseif errorR.error == "incorrect_device_code" then
-			-- elseif errorR.error == "access_denied" then
 			else
 				close_popup()
 				vim.notify(errorR.error_description, vim.log.levels.ERROR)
-				-- add_to_buff(" !ERROR! " .. errorR.error_description)
 			end
 		else
-			-- require('thanks.curl').curl('GET', 'https://api.github.com/user', {
-			-- 	Accept = 'application/vnd.github+json',
-			-- 	Authorization = 'Bearer ' .. check_response.access_token,
-			-- })
-
 			-- Save the access token
 			local utils = require("thanks.utils")
 			local data = utils.read_persisted_data(nil)
@@ -174,15 +170,6 @@ function GithubApi:authenticate()
 	end
 
 	response = response --[[@as Device]]
-
-	-- test
-	-- local device = {
-	-- 	device_code = "test",
-	-- 	user_code = "test",
-	-- 	verification_uri = "https://google.com",
-	-- 	expires_in = 100,
-	-- 	interval = 5,
-	-- }
 
 	local close_popup, add_to_buff = open_signin_popup(response.user_code, response.verification_uri)
 

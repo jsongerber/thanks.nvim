@@ -107,14 +107,7 @@ M.setup = function(options)
 	end, {})
 
 	if M.config.star_on_startup then
-		-- LazyInstall is only triggered after :Lazy sync, not on startup, check why this doesn't work later
-		-- vim.api.nvim_create_autocmd("User", {
-		-- 	pattern = "LazyInstall",
-		-- 	once = true,
-		-- 	callback = function()
-		-- 		M.star_all(false)
-		-- 	end,
-		-- })
+		-- LazyInstall is only triggered after :Lazy sync, not on startup install, check why this doesn't work later
 
 		-- Trigger star_all on startup
 		vim.schedule(function()
