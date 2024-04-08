@@ -29,11 +29,11 @@ M.curl = function(method, url, headers, data)
 		curl_command = curl_command .. '-d "' .. table.concat(query_params, "&") .. '" '
 	end
 
-	curl_command = curl_command .. url .. ' || echo "error"'
+	curl_command = curl_command .. url
 
 	local response = vim.fn.system(curl_command)
 
-	if vim.fn.trim(response) == "error" then
+	if vim.v.shell_error ~= 0 then
 		return nil, {
 			error = "api_error",
 			error_description = "Error in response from Github",
