@@ -2,7 +2,7 @@
 
 > Never forget to star a repo
 
-Automatically star all the Neovim plugins you use.
+Automatically star all the Neovim plugins you use.readml
 
 > [!NOTE]  
 > Only works with [lazy.nvim](https://github.com/folke/lazy.nvim) and [packer](https://github.com/wbthomason/packer.nvim).  
@@ -22,7 +22,7 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 
 -   A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) or [packer](https://github.com/wbthomason/packer.nvim)
 -   Linux or MacOs: not tested on Windows but should **NOT** work, PRs are welcome.
--   cURL: if you don't have curl installed, use your favorite plugin manager to install it.
+-   cURL: if you don't have curl installed, use your favorite package manager to install it.
 
 ## 📋 Installation
 
@@ -102,8 +102,9 @@ PRs and issues are always welcome. Make sure to provide as much context as possi
 ## 📝 TODO (will do if there is demand (open issue or PR))
 
 -   [ ] Other plugin managers
--   [ ] Unstar on uninstall
+-   [x] Unstar on uninstall
 -   [ ] Automatically detect plugin manager
+-   [ ] Option to star external packages (LSPs, formatters, linters)
 
 ## 📜 License
 
