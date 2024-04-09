@@ -61,6 +61,45 @@ M.get_plugins = function(plugin_manager)
 	return plugins
 end
 
+---@param plugins Plugin[]
+---@param cached_plugins string[]
+---@return string[]
+M.get_plugins_to_unstar = function(plugins, cached_plugins)
+	local uninstalled_plugins = {}
+
+	for _, plugin in ipairs(cached_plugins) do
+		local found = false
+		for _, installed_plugin in ipairs(plugins) do
+			if plugin == installed_plugin.handle then
+				found = true
+				break
+			end
+		end
+
+		if not found then
+			table.insert(uninstalled_plugins, plugin)
+		end
+	end
+
+	return uninstalled_plugins
+end
+
+---@param plugins Plugin[]
+---@param cached_plugins string[]
+---@return Plugin[]
+M.get_plugins_to_star = function(plugins, cached_plugins)
+	cached_plugins = cached_plugins or {}
+	local plugins_to_star = {}
+
+	for _, plugin in ipairs(plugins) do
+		if not vim.tbl_contains(cached_plugins, plugin.handle) then
+			table.insert(plugins_to_star, plugin)
+		end
+	end
+
+	return plugins_to_star
+end
+
 ---@param data table
 ---@param filename? string
 M.persist_data = function(data, filename)
