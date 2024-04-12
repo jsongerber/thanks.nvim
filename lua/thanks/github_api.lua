@@ -178,6 +178,7 @@ end
 
 ---@param plugin_handle string
 ---@param star? boolean
+---@return boolean
 function GithubApi:star(plugin_handle, star)
 	star = star == nil and true or star
 
@@ -194,8 +195,10 @@ function GithubApi:star(plugin_handle, star)
 
 	if errorR then
 		vim.notify(errorR.error_description, vim.log.levels.ERROR)
-		return
+		return false
 	end
+
+	return true
 end
 
 function GithubApi:logout()
