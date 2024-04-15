@@ -69,7 +69,7 @@ local function open_signin_popup(code, url)
 		height = height,
 		width = width,
 	})
-	vim.api.nvim_win_set_option(winid, "winhighlight", "Normal:Normal")
+	vim.api.nvim_set_option_value("winhighlight", "Normal:Normal", { win = winid })
 
 	return function()
 		vim.api.nvim_win_close(winid, true)
