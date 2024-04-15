@@ -1,5 +1,14 @@
 local M = {}
 
+---@class Config
+---@field plugin_manager string
+---@field star_on_startup boolean
+---@field star_on_install boolean
+---@field unstar_on_uninstall boolean
+---@field ignore_repos string[]
+---@field ignore_authors string[]
+---@field ask_before_unstarring boolean
+
 M.default_config = {
 	plugin_manager = "",
 	star_on_startup = false,
@@ -7,8 +16,8 @@ M.default_config = {
 	unstar_on_uninstall = false,
 	ignore_repos = {},
 	ignore_authors = {},
+	ask_before_unstarring = false,
 }
-
 ---@param options table
 M.get_config = function(options)
 	return vim.tbl_deep_extend("force", M.default_config, options or {})
@@ -97,9 +106,10 @@ M.star_all = function(called_from_command)
 		ignored = 0,
 		already_starred = 0,
 		error = 0,
+		unstar_ignored = 0,
 	}
 	if github:get_auth() then
-		require("thanks.star").star_interval(github, to_star, to_unstar, data, 1, stats, called_from_command)
+		require("thanks.star").star_interval(github, to_star, to_unstar, data, 1, stats, called_from_command, M.config)
 	else
 		vim.notify("Please authenticate with Github first using :ThanksGithubAuth", vim.log.levels.INFO)
 	end
