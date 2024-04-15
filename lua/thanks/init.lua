@@ -13,9 +13,9 @@ M.default_config = {
 	plugin_manager = "",
 	star_on_startup = false,
 	star_on_install = true,
-	unstar_on_uninstall = false,
 	ignore_repos = {},
 	ignore_authors = {},
+	unstar_on_uninstall = false,
 	ask_before_unstarring = false,
 }
 ---@param options table

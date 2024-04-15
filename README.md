@@ -61,6 +61,8 @@ require("thanks").setup({
     star_on_install = true,
     ignore_repos = {},
     ignore_authors = {},
+    unstar_on_uninstall = false,
+    ask_before_unstarring = false,
 })
 ```
 
@@ -71,6 +73,8 @@ require("thanks").setup({
 | `star_on_startup` | Boolean | Same that `star_on_install`, but run on startup so it check if you have any new plugins everytime you open Neovim                                      | `false`       |
 | `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                             | `{}`          |
 | `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                                  | `{}`          |
+| `unstar_on_uninstall` | Boolean | Automatically unstar on **uninstall**                                                                                                                  | `false`       |
+| `ask_before_unstarring` | Boolean | Ask before unstarring a plugin, unstar without prompt if `false` (default), if `true` and you answer with `n`, the plugin is uninstalled but won't be starred                                                                                                                        | `false`       |
 
 ## 🧰 Commands
 
