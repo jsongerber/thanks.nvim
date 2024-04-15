@@ -10,9 +10,10 @@ local M = {}
 ---@param to_unstar string[]
 ---@param data { starred_plugins: string[] }
 ---@param index number
----@param stats { starred: number, unstarred: number, ignored: number, already_starred: number, error: number }
+---@param stats { starred: number, unstarred: number, unstar_ignored: number, ignored: number, already_starred: number, error: number }
 ---@param called_from_command boolean
-M.star_interval = function(github, to_star, to_unstar, data, index, stats, called_from_command)
+---@param config Config
+M.star_interval = function(github, to_star, to_unstar, data, index, stats, called_from_command, config)
 	-- Check if we're done
 	if index > #to_star + #to_unstar then
 		if stats.starred > 0 or called_from_command then
@@ -25,15 +26,15 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 	local plugin_handle, plugin_author = M.get_plugin_handle_and_author(to_star, to_unstar, index)
 	if not plugin_handle or not plugin_author then
 		stats.error = stats.error + 1
-		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command)
+		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command, config)
 		return
 	end
 
 	-- Handle ignored plugins
-	local is_ignored = M.is_ignored(plugin_handle, plugin_author)
+	local is_ignored = M.is_ignored(plugin_handle, plugin_author, config.ignore_repos, config.ignore_authors)
 	if is_ignored then
 		stats.ignored = stats.ignored + 1
-		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command)
+		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command, config)
 		return
 	end
 
@@ -51,11 +52,30 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 			vim.notify("Failed to star " .. plugin_handle, vim.log.levels.ERROR)
 		end
 	else
-		local unstarred = github:star(plugin_handle, false)
+		local unstarred = false
+		local unstar_ignored = false
 
-		if unstarred then
+		if config.ask_before_unstarring then
+			vim.ui.input({ prompt = "Do you want to unstar " .. plugin_handle .. "? (y/n)" }, function(input)
+				if input == "y" or input == "Y" then
+					unstarred = github:star(plugin_handle, false)
+				else
+					unstar_ignored = true
+				end
+			end)
+		else
+			unstarred = github:star(plugin_handle, false)
+		end
+
+		if unstar_ignored then
+			stats.unstar_ignored = stats.ignored + 1
+		elseif unstarred then
 			stats.unstarred = stats.unstarred + 1
+		else
+			vim.notify("Failed to unstar " .. plugin_handle, vim.log.levels.ERROR)
+		end
 
+		if unstar_ignored or unstarred then
 			-- Remove the unstarred plugin from disk
 			for i, starred_plugin in ipairs(starred_plugins) do
 				if starred_plugin == plugin_handle then
@@ -63,8 +83,6 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 					break
 				end
 			end
-		else
-			vim.notify("Failed to unstar " .. plugin_handle, vim.log.levels.ERROR)
 		end
 	end
 	require("thanks.utils").persist_data(data)
@@ -75,11 +93,11 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 			vim.log.levels.INFO
 		)
 
-		star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command)
+		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command, config)
 	end, 500)
 end
 
----@param stats { starred: number, unstarred: number, ignored: number, already_starred: number }
+---@param stats { starred: number, unstarred: number, unstar_ignored: number, ignored: number, already_starred: number }
 ---@return string
 M.generate_starred_message = function(stats)
 	local message = "Starred " .. stats.starred .. " plugins"
@@ -94,6 +112,10 @@ M.generate_starred_message = function(stats)
 
 	if stats.ignored > 0 then
 		message = message .. " - " .. stats.ignored .. " ignored"
+	end
+
+	if stats.unstar_ignored > 0 then
+		message = message .. " - " .. stats.unstar_ignored .. " not unstarred"
 	end
 
 	return message
@@ -123,15 +145,17 @@ end
 
 ---@param plugin_handle string
 ---@param plugin_author string
+---@param ignore_repos string[]
+---@param ignore_authors string[]
 ---@return boolean
-M.is_ignored = function(plugin_handle, plugin_author)
+M.is_ignored = function(plugin_handle, plugin_author, ignore_repos, ignore_authors)
 	-- Check if plugin is ignored
-	if vim.tbl_contains(M.config.ignore_repos, plugin_handle) then
+	if vim.tbl_contains(ignore_repos, plugin_handle) then
 		return true
 	end
 
 	-- Check if author is ignored
-	if vim.tbl_contains(M.config.ignore_authors, plugin_author) then
+	if vim.tbl_contains(ignore_authors, plugin_author) then
 		return true
 	end
 
