@@ -21,7 +21,7 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 ## 🔧 Requirements and dependencies
 
 -   A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) or [packer](https://github.com/wbthomason/packer.nvim)
--   Linux or MacOs: not tested on Windows but should **NOT** work, PRs are welcome.
+-   Linux or MacOs: not tested on Windows but maybe work, please let me know if you try it.
 -   cURL: if you don't have curl installed, use your favorite plugin manager to install it.
 
 ## 📋 Installation
