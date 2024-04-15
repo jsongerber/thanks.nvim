@@ -191,10 +191,9 @@ function GithubApi:star(plugin_handle, star)
 		["Content-Length"] = 0,
 	}
 
-	local response, errorR = require("thanks.curl").curl(star and "PUT" or "DELETE", url, headers)
+	local _, errorR = require("thanks.curl").curl(star and "PUT" or "DELETE", url, headers)
 
 	if errorR then
-		vim.notify(errorR.error_description, vim.log.levels.ERROR)
 		return false
 	end
 
