@@ -69,7 +69,7 @@ local function open_signin_popup(code, url)
 		height = height,
 		width = width,
 	})
-	vim.api.nvim_win_set_option(winid, "winhighlight", "Normal:Normal")
+	vim.api.nvim_set_option_value("winhighlight", "Normal:Normal", { win = winid })
 
 	return function()
 		vim.api.nvim_win_close(winid, true)
@@ -176,23 +176,28 @@ function GithubApi:authenticate()
 	self:checkDeviceRegistered(response, -1, add_to_buff, close_popup)
 end
 
----@param plugin Plugin
-function GithubApi:star(plugin)
+---@param plugin_handle string
+---@param star? boolean
+---@return boolean
+function GithubApi:star(plugin_handle, star)
+	star = star == nil and true or star
+
 	local access_token = self:get_auth().access_token
 
-	local url = "https://api.github.com/user/starred/" .. plugin.handle
+	local url = "https://api.github.com/user/starred/" .. plugin_handle
 	local headers = {
 		Accept = "application/vnd.github+json",
 		Authorization = "Bearer " .. access_token,
 		["Content-Length"] = 0,
 	}
 
-	local response, errorR = require("thanks.curl").curl("PUT", url, headers)
+	local _, errorR = require("thanks.curl").curl(star and "PUT" or "DELETE", url, headers)
 
 	if errorR then
-		vim.notify(errorR.error_description, vim.log.levels.ERROR)
-		return
+		return false
 	end
+
+	return true
 end
 
 function GithubApi:logout()

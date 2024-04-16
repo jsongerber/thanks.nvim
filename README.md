@@ -2,7 +2,7 @@
 
 > Never forget to star a repo
 
-Automatically star all the Neovim plugins you use.
+Automatically star all the Neovim plugins you use.readml
 
 > [!NOTE]  
 > Only works with [lazy.nvim](https://github.com/folke/lazy.nvim) and [packer](https://github.com/wbthomason/packer.nvim).  
@@ -22,7 +22,7 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 
 -   A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim) or [packer](https://github.com/wbthomason/packer.nvim)
 -   Linux or MacOs: not tested on Windows but should **NOT** work, PRs are welcome.
--   cURL: if you don't have curl installed, use your favorite plugin manager to install it.
+-   cURL: if you don't have curl installed, use your favorite package manager to install it.
 
 ## 📋 Installation
 
@@ -61,6 +61,8 @@ require("thanks").setup({
     star_on_install = true,
     ignore_repos = {},
     ignore_authors = {},
+    unstar_on_uninstall = false,
+    ask_before_unstarring = false,
 })
 ```
 
@@ -71,6 +73,8 @@ require("thanks").setup({
 | `star_on_startup` | Boolean | Same that `star_on_install`, but run on startup so it check if you have any new plugins everytime you open Neovim                                      | `false`       |
 | `ignore_repos`    | Table   | Repos you wish to ignore when calling `:ThanksAll` eg: `{ "author/repo" }`                                                                             | `{}`          |
 | `ignore_authors`  | Table   | Authors you wish to ignore when calling `:ThanksAll` (e.g. if you don't want to star you own repo) eg: `{ "author" }`                                  | `{}`          |
+| `unstar_on_uninstall` | Boolean | Automatically unstar on **uninstall**                                                                                                                  | `false`       |
+| `ask_before_unstarring` | Boolean | Ask before unstarring a plugin, unstar without prompt if `false` (default), if `true` and you answer with `n`, the plugin is uninstalled but won't be starred                                                                                                                        | `false`       |
 
 ## 🧰 Commands
 
@@ -102,8 +106,9 @@ PRs and issues are always welcome. Make sure to provide as much context as possi
 ## 📝 TODO (will do if there is demand (open issue or PR))
 
 -   [ ] Other plugin managers
--   [ ] Unstar on uninstall
+-   [x] Unstar on uninstall
 -   [ ] Automatically detect plugin manager
+-   [ ] Option to star external packages (LSPs, formatters, linters)
 
 ## 📜 License
 
