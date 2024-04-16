@@ -4,9 +4,9 @@ local M = {}
 ---@field plugin_manager string
 ---@field star_on_startup boolean
 ---@field star_on_install boolean
----@field unstar_on_uninstall boolean
 ---@field ignore_repos string[]
 ---@field ignore_authors string[]
+---@field unstar_on_uninstall boolean
 ---@field ask_before_unstarring boolean
 
 M.default_config = {
