@@ -69,7 +69,7 @@ local function open_signin_popup(code, url)
 		height = height,
 		width = width,
 	})
-	vim.api.nvim_win_set_option(winid, "winhighlight", "Normal:Normal")
+	vim.api.nvim_set_option_value("winhighlight", "Normal:Normal", { win = winid })
 
 	return function()
 		vim.api.nvim_win_close(winid, true)
@@ -178,6 +178,7 @@ end
 
 ---@param plugin_handle string
 ---@param star? boolean
+---@return boolean
 function GithubApi:star(plugin_handle, star)
 	star = star == nil and true or star
 
@@ -190,12 +191,13 @@ function GithubApi:star(plugin_handle, star)
 		["Content-Length"] = 0,
 	}
 
-	local response, errorR = require("thanks.curl").curl(star and "PUT" or "DELETE", url, headers)
+	local _, errorR = require("thanks.curl").curl(star and "PUT" or "DELETE", url, headers)
 
 	if errorR then
-		vim.notify(errorR.error_description, vim.log.levels.ERROR)
-		return
+		return false
 	end
+
+	return true
 end
 
 function GithubApi:logout()
