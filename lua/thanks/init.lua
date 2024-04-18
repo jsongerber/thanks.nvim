@@ -66,6 +66,7 @@ M.setup = function(options)
 	end
 
 	if M.config.star_on_install then
+		vim.print("start")
 		local event = ""
 		if M.config.plugin_manager == "lazy" then
 			event = "LazyInstall"
@@ -79,7 +80,9 @@ M.setup = function(options)
 			}),
 			pattern = event,
 			callback = function()
+				vim.print("event")
 				vim.schedule(function()
+					vim.print("event schedule")
 					M.star_all(false)
 				end)
 			end,
