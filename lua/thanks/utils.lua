@@ -50,12 +50,12 @@ M.get_plugins = function(plugin_manager)
 		end
 	else
 		vim.notify("Only Lazy and packer plugin manager is supported at the moment", vim.log.levels.ERROR)
-		return
+		return {}
 	end
 
 	if not plugins or not #plugins then
 		vim.notify("No plugins found", vim.log.levels.ERROR)
-		return
+		return {}
 	end
 
 	return plugins
