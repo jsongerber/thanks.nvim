@@ -6,6 +6,17 @@ local M = {}
 ---@field url string plugin url
 ---@field author string plugin author
 
+---@return string packer|lazy
+M.get_plugin_manager = function()
+	if vim.fn.exists(":PackerInstall") == 2 then
+		return "packer"
+	elseif vim.fn.exists(":Lazy") == 2 or vim.fn.exists(":Lazy") == 3 then -- Doc says it should be 2 but it's 3 on my machine
+		return "lazy"
+	end
+
+	return ""
+end
+
 ---@param plugin_manager string
 ---@return Plugin[]
 M.get_plugins = function(plugin_manager)

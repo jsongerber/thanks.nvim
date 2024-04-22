@@ -1,7 +1,6 @@
 local M = {}
 
 ---@class Config
----@field plugin_manager string
 ---@field star_on_startup boolean
 ---@field star_on_install boolean
 ---@field ignore_repos string[]
@@ -10,7 +9,6 @@ local M = {}
 ---@field ask_before_unstarring boolean
 
 M.default_config = {
-	plugin_manager = "",
 	star_on_startup = false,
 	star_on_install = true,
 	ignore_repos = {},
@@ -28,7 +26,10 @@ M.setup = function(options)
 	-- Set the options
 	M.config = M.get_config(options)
 
-	if M.config.plugin_manager ~= "lazy" and M.config.plugin_manager ~= "packer" then
+	local utils = require("thanks.utils")
+	local plugin_manager = utils.get_plugin_manager()
+
+	if plugin_manager ~= "lazy" and plugin_manager ~= "packer" then
 		vim.notify("Only Lazy and Packer plugin manager is supported at the moment", vim.log.levels.ERROR)
 		return
 	end
@@ -39,7 +40,7 @@ M.setup = function(options)
 	end, {})
 
 	vim.api.nvim_create_user_command("ThanksAll", function()
-		M.star_all(true)
+		M.star_all(true, plugin_manager)
 	end, {})
 
 	-- Log out
@@ -61,29 +62,29 @@ M.setup = function(options)
 
 		-- Trigger star_all on startup
 		vim.schedule(function()
-			M.star_all(false)
+			M.star_all(false, plugin_manager)
 		end)
 	end
 
 	if M.config.star_on_install then
-		vim.print("start")
-		local event = ""
-		if M.config.plugin_manager == "lazy" then
-			event = "LazyInstall"
-		elseif M.config.plugin_manager == "packer" then
+		local event
+		if plugin_manager == "lazy" then
+			event = { "LazyInstall", "LazyClean" }
+		elseif plugin_manager == "packer" then
 			event = "PackerComplete"
 		end
 
-		vim.api.nvim_create_autocmd({ "user" }, {
-			group = vim.api.nvim_create_augroup("ThanksStarAll", {
-				clear = true,
-			}),
+		local augroup = vim.api.nvim_create_augroup("ThanksStarAll", {
+			clear = true,
+		})
+		vim.api.nvim_create_autocmd("User", {
+			group = augroup,
 			pattern = event,
 			callback = function()
-				vim.print("event")
+				vim.print("should start please event")
 				vim.schedule(function()
 					vim.print("event schedule")
-					M.star_all(false)
+					M.star_all(false, plugin_manager)
 				end)
 			end,
 		})
@@ -91,9 +92,10 @@ M.setup = function(options)
 end
 
 ---@param called_from_command boolean
-M.star_all = function(called_from_command)
+---@param plugin_manager string
+M.star_all = function(called_from_command, plugin_manager)
 	local utils = require("thanks.utils")
-	local installed_plugins = utils.get_plugins(M.config.plugin_manager)
+	local installed_plugins = utils.get_plugins(plugin_manager)
 	local data = utils.read_persisted_data() or {}
 	local cached_plugins = data.starred_plugins or {}
 
