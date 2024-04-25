@@ -14,24 +14,6 @@ local M = {}
 ---@param called_from_command boolean
 ---@param config Config
 M.star_interval = function(github, to_star, to_unstar, data, index, stats, called_from_command, config)
-	vim.print(
-		"githubgithub",
-		vim.inspect(github),
-		"to_star0",
-		vim.inspect(to_star),
-		"to_unstar0",
-		vim.inspect(to_unstar),
-		"data0",
-		vim.inspect(data),
-		"index0",
-		vim.inspect(index),
-		"stats0",
-		vim.inspect(stats),
-		"called_from_command0",
-		vim.inspect(called_from_command),
-		"config0",
-		vim.inspect(config)
-	)
 	-- Check if we're done
 	if index > #to_star + #to_unstar or (index > #to_star and not config.unstar_on_uninstall) then
 		if stats.starred > 0 or called_from_command then
@@ -75,10 +57,10 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 
 		if config.ask_before_unstarring then
 			vim.ui.input({ prompt = "Do you want to unstar " .. plugin_handle .. "? (y/n)" }, function(input)
-				if input == "y" or input == "Y" then
-					unstarred = github:star(plugin_handle, false)
-				else
+				if input == "n" or input == "N" then
 					unstar_ignored = true
+				else
+					unstarred = github:star(plugin_handle, false)
 				end
 			end)
 		else

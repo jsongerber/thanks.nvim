@@ -81,9 +81,7 @@ M.setup = function(options)
 			group = augroup,
 			pattern = event,
 			callback = function()
-				vim.print("should start please event")
 				vim.schedule(function()
-					vim.print("event schedule")
 					M.star_all(false, plugin_manager)
 				end)
 			end,
