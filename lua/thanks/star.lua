@@ -39,8 +39,12 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 	end
 
 	local starred_plugins = data.starred_plugins or {}
+	local unstarred = false
+	local unstar_ignored = false
+	local starred = false
+
 	if index <= #to_star then
-		local starred = github:star(plugin_handle)
+		starred = github:star(plugin_handle)
 
 		if starred then
 			stats.starred = stats.starred + 1
@@ -52,9 +56,6 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 			vim.notify("Failed to star " .. plugin_handle, vim.log.levels.ERROR)
 		end
 	else
-		local unstarred = false
-		local unstar_ignored = false
-
 		if config.ask_before_unstarring then
 			vim.ui.input({ prompt = "Do you want to unstar " .. plugin_handle .. "? (y/n)" }, function(input)
 				if input == "n" or input == "N" then
@@ -89,10 +90,21 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 	require("thanks.utils").persist_data(data)
 
 	vim.defer_fn(function()
-		vim.notify(
-			"Successfully " .. (index > #to_star and "unstarred " or "starred ") .. plugin_handle,
-			vim.log.levels.INFO
-		)
+		local message = ""
+		if index > #to_star then
+			-- Unstar
+			if unstar_ignored then
+				message = plugin_handle .. " still starred"
+			elseif unstarred then
+				message = "Successfully unstarred " .. plugin_handle
+			end
+		else
+			-- Star
+			if starred then
+				message = "Successfully starred " .. plugin_handle
+			end
+		end
+		vim.notify(message, vim.log.levels.INFO)
 
 		M.star_interval(github, to_star, to_unstar, data, index + 1, stats, called_from_command, config)
 	end, 500)
