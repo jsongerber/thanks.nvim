@@ -18,7 +18,7 @@ If you have `unstar_on_uninstall` set to `true`, it will also unstar the plugins
 The initial run may take a minute if you have a lot of plugins, but next runs will be faster due to the utilization of a local cache.  
 The local cache can be deleted using the `:ThanksClearCache` command. It will be recreated the next time you execute `:ThanksAll`.
 
-With the default configuration, every time a new plugin is installed, `:ThanksAll` will be automatically executed (set `star_on_startup` to `true` if you want to check on each Neovim startup, see [caveat](#🚧-caveats)).
+With the default configuration, every time a new plugin is installed, `:ThanksAll` will be automatically executed (set `star_on_startup` to `true` if you want to check on each Neovim startup, see [caveat](#-caveats)).
 
 ## 🔧 Requirements and dependencies
 
@@ -66,7 +66,7 @@ require("thanks").setup({
 | Option            | Type    | Description                                                                                                                                            | Default value |
 | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------- |
 | `star_on_install` | Boolean | Automatically run on **install**, so you can forget about it and it will automatically star your new plugins | `true`        |
-| `star_on_startup` | Boolean | Same that `star_on_install`, but run on **startup** so it check if you have any new plugins everytime you open Neovim. <br>Set to `true` if beeing always up to date is important to you (see [caveat](#🚧-caveats)). <br>Default is `false` so you startup time maniacs won't be disapointed, but if you don't care a file read on startup it is recommended to have it to `true`                                      | `false`       |
+| `star_on_startup` | Boolean | Same that `star_on_install`, but run on **startup** so it check if you have any new plugins everytime you open Neovim. <br>Set to `true` if beeing always up to date is important to you (see [caveat](#-caveats)). <br>Default is `false` so you startup time maniacs won't be disapointed, but if you don't care a file read on startup it is recommended to have it to `true`                                      | `false`       |
 | `ignore_repos`    | Table   | Repos you wish to ignore when starring/unstarring eg: `{ "author/repo" }`                                                                             | `{}`          |
 | `ignore_authors`  | Table   | Authors you wish to ignore when starring/unstarring (e.g. if you don't want to star you own repos: `{ "author" }`)                                  | `{}`          |
 | `unstar_on_uninstall` | Boolean | Unstar plugins when they are uninstalled | `false` |
