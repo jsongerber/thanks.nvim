@@ -8,6 +8,8 @@ Automatically star all the Neovim plugins you use.
 > Only works with [lazy.nvim](https://github.com/folke/lazy.nvim) and [packer](https://github.com/wbthomason/packer.nvim).  
 > Please open an issue or PR if you want to use it with another plugin manager.
 
+See :h thanks if you are in Neovim.
+
 ## 🚀 Usage
 
 After installing thanks.nvim, you must first log in to GitHub using the `:ThanksGithubAuth` command. This step is necessary only once.
