@@ -3,24 +3,26 @@
 ==============================================================================
 Table of Contents                              *thanks.nvim-table-of-contents*
 
-1. Introduction                                     |thanks-nvim-introduction|
-2. Usage                                                   |thanks-nvim-usage|
-3. Requirements and dependencies                    |thanks-nvim-requirements|
-4. Installation                                     |thanks-nvim-installation|
-5. Configuration                                   |thanks-nvim-configuration|
+1. Contents                                             |thanks-nvim-contents|
+2. Introduction                                     |thanks-nvim-introduction|
+3. Usage                                                   |thanks-nvim-usage|
+4. Requirements and dependencies                    |thanks-nvim-requirements|
+5. Installation                                     |thanks-nvim-installation|
+6. Configuration                                   |thanks-nvim-configuration|
   - star_on_install
   - star_on_startup
   - ignore_repos
   - ignore_authors
   - unstar_on_uninstall
   - ask_before_unstarring
-6. Commands                                             |thanks-nvim-commands|
+7. Commands                                             |thanks-nvim-commands|
   - :ThanksAll                                                    |:ThanksAll|
   - :ThanksGithubAuth                                      |:ThanksGithubAuth
   - :ThanksGithubLogout                                  |:ThanksGithubLogout
   - :ThanksClearCache                                      |:ThanksClearCache
-7. Caveats                                               |thanks-nvim-caveats|
-8. Uninstall                                           |thanks-nvim-uninstall|
+8. Caveats                                               |thanks-nvim-caveats|
+9. Uninstall                                           |thanks-nvim-uninstall|
+10. License                                               |thanks-nvim-license|
 
 ==============================================================================
 1. Contents                                             *thanks-nvim-contents*
@@ -43,16 +45,16 @@ After installing thanks.nvim, you must first log in to GitHub using the
 |:ThanksGithubAuth| command. This step is necessary only once. |:ThanksGithubAuth|
 
 Once you're authenticated, you can star all the installed plugins using the
-|:ThanksAll| command. If you have |unstar_on_uninstall| set to `true`, it will
+|:ThanksAll| command. If you have `unstar_on_uninstall` set to `true`, it will
 also unstar the plugins that are not installed anymore. |:ThanksAll|
 
 The initial run may take a minute if you have a lot of plugins, but next runs
 will be faster due to the utilization of a local cache. The local cache can be
 deleted using the |:ThanksClearCache| command. It will be recreated the next
-time you execute |:ThanksAll|. |ThanksClearCache|
+time you execute |:ThanksAll|. |:ThanksClearCache|
 
 With the default configuration, every time a new plugin is installed,
-|:ThanksAll| will be automatically executed (set |star_on_startup| to `true` if
+|:ThanksAll| will be automatically executed (set `star_on_startup` to `true` if
 you want to check on each Neovim startup, see |thanks-nvim-caveats|).
 
 ==============================================================================
@@ -126,7 +128,7 @@ ask_before_unstarring Boolean  false    Ask before unstarring a plugin
 
 `:ThanksAll`                                                      *:ThanksAll*
 
- Star all the plugins you have installed (and unstar if |unstar_on_uninstall|
+ Star all the plugins you have installed (and unstar if `unstar_on_uninstall`
  is set to `true`)
 
 `:ThanksGithubAuth`                                        *:ThanksGithubAuth*
@@ -138,7 +140,7 @@ ask_before_unstarring Boolean  false    Ask before unstarring a plugin
  Logout of your GitHub account (this command only delete the locally 
  saved access token, you still need to revoke app permission manually)
 
-`:ThanksClearCache`                                         *ThanksClearCache*
+`:ThanksClearCache`                                         *:ThanksClearCache*
 
  Delete local cache of starred plugins 
 
@@ -174,6 +176,11 @@ To find the path of this file, you can run the following command in neovim:
 >vim
     :lua vim.print(vim.fn.stdpath("data") .. "/jsongerber-thanks.json")
 <
+
+==============================================================================
+10. License                                                *thanks-nvim-license*
+
+MIT License © jsongerber
 
 ==============================================================================
 vim:tw=78:ts=8:ft=help:norl:
