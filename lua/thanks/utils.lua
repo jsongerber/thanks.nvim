@@ -6,6 +6,17 @@ local M = {}
 ---@field url string plugin url
 ---@field author string plugin author
 
+---@return string packer|lazy
+M.get_plugin_manager = function()
+	if vim.fn.exists(":PackerInstall") == 2 then
+		return "packer"
+	elseif vim.fn.exists(":Lazy") == 2 or vim.fn.exists(":Lazy") == 3 then -- Doc says it should be 2 but it's 3 on my machine
+		return "lazy"
+	end
+
+	return ""
+end
+
 ---@param plugin_manager string
 ---@return Plugin[]
 M.get_plugins = function(plugin_manager)
@@ -50,15 +61,54 @@ M.get_plugins = function(plugin_manager)
 		end
 	else
 		vim.notify("Only Lazy and packer plugin manager is supported at the moment", vim.log.levels.ERROR)
-		return
+		return {}
 	end
 
 	if not plugins or not #plugins then
 		vim.notify("No plugins found", vim.log.levels.ERROR)
-		return
+		return {}
 	end
 
 	return plugins
+end
+
+---@param plugins Plugin[]
+---@param cached_plugins string[]
+---@return string[]
+M.get_plugins_to_unstar = function(plugins, cached_plugins)
+	local uninstalled_plugins = {}
+
+	for _, plugin in ipairs(cached_plugins) do
+		local found = false
+		for _, installed_plugin in ipairs(plugins) do
+			if plugin == installed_plugin.handle then
+				found = true
+				break
+			end
+		end
+
+		if not found then
+			table.insert(uninstalled_plugins, plugin)
+		end
+	end
+
+	return uninstalled_plugins
+end
+
+---@param plugins Plugin[]
+---@param cached_plugins string[]
+---@return Plugin[]
+M.get_plugins_to_star = function(plugins, cached_plugins)
+	cached_plugins = cached_plugins or {}
+	local plugins_to_star = {}
+
+	for _, plugin in ipairs(plugins) do
+		if not vim.tbl_contains(cached_plugins, plugin.handle) then
+			table.insert(plugins_to_star, plugin)
+		end
+	end
+
+	return plugins_to_star
 end
 
 ---@param data table
