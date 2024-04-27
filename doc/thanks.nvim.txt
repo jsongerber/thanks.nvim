@@ -22,7 +22,7 @@ Table of Contents                              *thanks.nvim-table-of-contents*
   - :ThanksClearCache                                      |:ThanksClearCache
 8. Caveats                                               |thanks-nvim-caveats|
 9. Uninstall                                           |thanks-nvim-uninstall|
-10. License                                               |thanks-nvim-license|
+10. License                                              |thanks-nvim-license|
 
 ==============================================================================
 1. Contents                                             *thanks-nvim-contents*
