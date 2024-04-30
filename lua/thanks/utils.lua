@@ -8,10 +8,14 @@ local M = {}
 
 ---@return string packer|lazy
 M.get_plugin_manager = function()
-	if vim.fn.exists(":PackerInstall") == 2 then
-		return "packer"
-	elseif vim.fn.exists(":Lazy") == 2 or vim.fn.exists(":Lazy") == 3 then -- Doc says it should be 2 but it's 3 on my machine
+	local lazy_exists = pcall(require, "lazy")
+	if lazy_exists then
 		return "lazy"
+	end
+
+	local packer_exists = pcall(require, "packer")
+	if packer_exists then
+		return "packer"
 	end
 
 	return ""
