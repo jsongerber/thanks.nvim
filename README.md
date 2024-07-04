@@ -118,4 +118,10 @@ Will do if there is demand (open issue or PR)
 
 ## 📜 License
 
+## Shameless plug
+
+See my other plugins:
+- [telescope-ssh-config](https://github.com/jsongerber/telescope-ssh-config): A plugin to list and connect to ssh hosts with telescope.nvim.
+- [nvim-px-to-rem](https://github.com/jsongerber/nvim-px-to-rem): A plugin to convert px to rem in Neovim.
+
 MIT © [jsongerber](https://github.com/jsongerber/thanks/blob/master/LICENSE)
