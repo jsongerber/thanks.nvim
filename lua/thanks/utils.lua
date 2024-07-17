@@ -18,6 +18,11 @@ M.get_plugin_manager = function()
 		return "packer"
 	end
 
+	local minideps_exists = pcall(require, "mini.deps")
+	if minideps_exists then
+		return "mini.deps"
+	end
+
 	return ""
 end
 
@@ -63,8 +68,27 @@ M.get_plugins = function(plugin_manager)
 				end
 			end
 		end
+	elseif plugin_manager == "mini.deps" then
+		local installed_plugins = require("mini.deps").get_session()
+		for _, plugin in ipairs(installed_plugins) do
+			local url = plugin.source
+
+			if url ~= nil then
+				local author, name = url:match("https://github.com/([^/]*)/([^/]*)")
+				if author and name then
+					local handle = author .. "/" .. name
+
+					table.insert(plugins, {
+						name = name,
+						handle = handle,
+						url = url,
+						author = author,
+					})
+				end
+			end
+		end
 	else
-		vim.notify("Only Lazy and packer plugin manager is supported at the moment", vim.log.levels.ERROR)
+		vim.notify("Only Lazy, Packer and mini.deps plugin managers are supported at the moment", vim.log.levels.ERROR)
 		return {}
 	end
 
@@ -80,6 +104,8 @@ end
 ---@param cached_plugins string[]
 ---@return string[]
 M.get_plugins_to_unstar = function(plugins, cached_plugins)
+	vim.print(vim.inspect(plugins))
+	vim.print(vim.inspect(cached_plugins))
 	local uninstalled_plugins = {}
 
 	for _, plugin in ipairs(cached_plugins) do
