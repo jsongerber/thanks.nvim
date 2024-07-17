@@ -104,8 +104,6 @@ end
 ---@param cached_plugins string[]
 ---@return string[]
 M.get_plugins_to_unstar = function(plugins, cached_plugins)
-	vim.print(vim.inspect(plugins))
-	vim.print(vim.inspect(cached_plugins))
 	local uninstalled_plugins = {}
 
 	for _, plugin in ipairs(cached_plugins) do

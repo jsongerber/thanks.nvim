@@ -34,7 +34,7 @@ M.setup = function(options)
 		return
 	end
 
-	if plugin_manager == "mini.deps" and M.config.star_on_install == true then
+	if plugin_manager == "mini.deps" and M.config.star_on_install then
 		vim.notify(
 			"star_on_install is not supported by `mini.deps`, please set it to false and use `star_on_startup` or `:ThanksAll`",
 			vim.log.levels.WARN
@@ -73,14 +73,14 @@ M.setup = function(options)
 		end)
 	end
 
-	if M.config.star_on_install then
+	if M.config.star_on_install and plugin_manager ~= "mini.deps" then
 		local event
 		if plugin_manager == "lazy" then
 			event = { "LazyInstall", "LazyClean" }
 		elseif plugin_manager == "packer" then
 			event = "PackerComplete"
 		elseif plugin_manager == "mini.deps" then
-			event = { "DepsAdd", "DepsUpdate" }
+			event = {}
 		end
 
 		local augroup = vim.api.nvim_create_augroup("ThanksStarAll", {
