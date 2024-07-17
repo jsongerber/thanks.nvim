@@ -29,9 +29,16 @@ M.setup = function(options)
 	local utils = require("thanks.utils")
 	local plugin_manager = utils.get_plugin_manager()
 
-	if plugin_manager ~= "lazy" and plugin_manager ~= "packer" then
-		vim.notify("Only Lazy and Packer plugin manager is supported at the moment", vim.log.levels.ERROR)
+	if plugin_manager ~= "lazy" and plugin_manager ~= "packer" and plugin_manager ~= "mini.deps" then
+		vim.notify("Only Lazy, Packer and mini.deps plugin managers are supported at the moment", vim.log.levels.ERROR)
 		return
+	end
+
+	if plugin_manager == "mini.deps" and M.config.star_on_install == true then
+		vim.notify(
+			"star_on_install is not supported by `mini.deps`, please set it to false and use `star_on_startup` or `:ThanksAll`",
+			vim.log.levels.WARN
+		)
 	end
 
 	vim.api.nvim_create_user_command("ThanksGithubAuth", function()
@@ -72,6 +79,8 @@ M.setup = function(options)
 			event = { "LazyInstall", "LazyClean" }
 		elseif plugin_manager == "packer" then
 			event = "PackerComplete"
+		elseif plugin_manager == "mini.deps" then
+			event = { "DepsAdd", "DepsUpdate" }
 		end
 
 		local augroup = vim.api.nvim_create_augroup("ThanksStarAll", {

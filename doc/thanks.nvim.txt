@@ -60,7 +60,7 @@ you want to check on each Neovim startup, see |thanks-nvim-caveats|).
 ==============================================================================
 4. Requirements and dependencies                    *thanks-nvim-requirements*
 
-- A plugin manager: `lazy.nvim` or `packer`
+- A plugin manager: `lazy.nvim`, `packer` or `mini.deps`
 - `Linux` or `MacOs:` not tested on Windows but maybe work, please let me know if
   you try it.
 - `cURL:` if you don't have curl installed, use your favorite package manager to
@@ -86,6 +86,19 @@ With `packer`:
         config = function()
             require("thanks").setup()
         end,
+    })
+<
+
+With `mini.deps`:
+
+>lua
+    add({
+        source = "/Users/jasongerber/Documents/neovim-plugins/thanks.nvim",
+        checkout = 'dev'
+    })
+
+    require('thanks').setup({
+        star_on_install = false, -- not supported by mini.deps, see caveat section of the README or the help
     })
 <
 
@@ -160,6 +173,9 @@ ask_before_unstarring Boolean  false    Ask before unstarring a plugin
   manually starred/unstarred a repo, if you manually star a repo on github.com
   and then install it, it will tell you that you just starred it, even though
   it was already starred.
+- mini.deps does not support `star_on_install` as it does not have a way to
+  run a function after installing a plugin (as far as I know), use
+  `star_on_install` or run `:ThanksAll` manually.
 
 ==============================================================================
 9. Uninstall                                             *thanks-nvim-uninstall*
