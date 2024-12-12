@@ -7,7 +7,8 @@ local M = {}
 ---@field ignore_authors string[]
 ---@field unstar_on_uninstall boolean
 ---@field ask_before_unstarring boolean
-
+---@field ignore_unauthenticated boolean
+---
 M.default_config = {
 	star_on_startup = false,
 	star_on_install = true,
@@ -15,6 +16,7 @@ M.default_config = {
 	ignore_authors = {},
 	unstar_on_uninstall = false,
 	ask_before_unstarring = false,
+	ignore_unauthenticated = false,
 }
 ---@param options table
 M.get_config = function(options)
@@ -122,7 +124,7 @@ M.star_all = function(called_from_command, plugin_manager)
 	}
 	if github:get_auth() then
 		require("thanks.star").star_interval(github, to_star, to_unstar, data, 1, stats, called_from_command, M.config)
-	else
+	elseif not M.config.ignore_unauthenticated then
 		vim.notify("Please authenticate with Github first using :ThanksGithubAuth", vim.log.levels.INFO)
 	end
 end

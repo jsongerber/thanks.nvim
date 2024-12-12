@@ -76,6 +76,7 @@ require("thanks").setup({
 	ignore_authors = {},
 	unstar_on_uninstall = false,
 	ask_before_unstarring = false,
+	ignore_unauthenticated = false,
 })
 ```
 
@@ -87,6 +88,7 @@ require("thanks").setup({
 | `ignore_authors`        | Table   | Authors you wish to ignore when starring/unstarring (e.g. if you don't want to star you own repos: `{ "author" }`)                                                                                                                                                                                                                                                               | `{}`          |
 | `unstar_on_uninstall`   | Boolean | Unstar plugins when they are uninstalled                                                                                                                                                                                                                                                                                                                                         | `false`       |
 | `ask_before_unstarring` | Boolean | Ask before unstarring a plugin (unstar the plugin if the prompt is dismissed without `n`)                                                                                                                                                                                                                                                                                        | `false`       |
+| `ignore_unauthenticated` | Boolean | When set to `true`, this plugin will stop notify the user to log in to Github | `false` |
 
 ## 🧰 Commands
 
