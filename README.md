@@ -24,13 +24,13 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 
 ## 🔧 Requirements and dependencies
 
--   A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) or [mini.deps](https://github.com/echasnovski/mini.deps)
--   Linux or MacOs: not tested on Windows but maybe work, please let me know if you try it.
--   cURL: if you don't have curl installed, use your favorite package manager to install it.
+- A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) or [mini.deps](https://github.com/echasnovski/mini.deps)
+- Linux or MacOs: not tested on Windows but maybe work, please let me know if you try it.
+- cURL: if you don't have curl installed, use your favorite package manager to install it.
 
 ## 📋 Installation
 
--   With [lazy.nvim](https://github.com/folke/lazy.nvim)
+- With [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
 -- add this to your lua/plugins.lua, lua/plugins/init.lua, or the file you keep your other plugins:
@@ -40,7 +40,7 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 }
 ```
 
--   With [packer](https://github.com/wbthomason/packer.nvim)
+- With [packer](https://github.com/wbthomason/packer.nvim)
 
 ```lua
 use({
@@ -51,7 +51,7 @@ use({
 })
 ```
 
--   With [mini.deps](https://github.com/echasnovski/mini.deps)
+- With [mini.deps](https://github.com/echasnovski/mini.deps)
 
 ```lua
 add({
@@ -80,15 +80,15 @@ require("thanks").setup({
 })
 ```
 
-| Option                  | Type    | Description                                                                                                                                                                                                                                                                                                                                                                      | Default value |
-| ----------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| `star_on_install`       | Boolean | Automatically run on **install**, so you can forget about it and it will automatically star your new plugins (mini.deps does not support this option, see [caveat](#-caveats))                                                                                                                                                                                                   | `true`        |
-| `star_on_startup`       | Boolean | Same that `star_on_install`, but run on **startup** so it check if you have any new plugins everytime you open Neovim. <br>Set to `true` if beeing always up to date is important to you (see [caveat](#-caveats)). <br>Default is `false` so you startup time maniacs won't be disapointed, but if you don't care a file read on startup it is recommended to have it to `true` | `false`       |
-| `ignore_repos`          | Table   | Repos you wish to ignore when starring/unstarring eg: `{ "author/repo" }`                                                                                                                                                                                                                                                                                                        | `{}`          |
-| `ignore_authors`        | Table   | Authors you wish to ignore when starring/unstarring (e.g. if you don't want to star you own repos: `{ "author" }`)                                                                                                                                                                                                                                                               | `{}`          |
-| `unstar_on_uninstall`   | Boolean | Unstar plugins when they are uninstalled                                                                                                                                                                                                                                                                                                                                         | `false`       |
-| `ask_before_unstarring` | Boolean | Ask before unstarring a plugin (unstar the plugin if the prompt is dismissed without `n`)                                                                                                                                                                                                                                                                                        | `false`       |
-| `ignore_unauthenticated` | Boolean | When set to `true`, this plugin will stop notify the user to log in to Github | `false` |
+| Option                   | Type    | Description                                                                                                                                                                                                                                                                                                                                                                      | Default value |
+| ------------------------ | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| `star_on_install`        | Boolean | Automatically run on **install**, so you can forget about it and it will automatically star your new plugins (mini.deps does not support this option, see [caveat](#-caveats))                                                                                                                                                                                                   | `true`        |
+| `star_on_startup`        | Boolean | Same that `star_on_install`, but run on **startup** so it check if you have any new plugins everytime you open Neovim. <br>Set to `true` if beeing always up to date is important to you (see [caveat](#-caveats)). <br>Default is `false` so you startup time maniacs won't be disapointed, but if you don't care a file read on startup it is recommended to have it to `true` | `false`       |
+| `ignore_repos`           | Table   | Repos you wish to ignore when starring/unstarring eg: `{ "author/repo" }`                                                                                                                                                                                                                                                                                                        | `{}`          |
+| `ignore_authors`         | Table   | Authors you wish to ignore when starring/unstarring (e.g. if you don't want to star you own repos: `{ "author" }`)                                                                                                                                                                                                                                                               | `{}`          |
+| `unstar_on_uninstall`    | Boolean | Unstar plugins when they are uninstalled                                                                                                                                                                                                                                                                                                                                         | `false`       |
+| `ask_before_unstarring`  | Boolean | Ask before unstarring a plugin (unstar the plugin if the prompt is dismissed without `n`)                                                                                                                                                                                                                                                                                        | `false`       |
+| `ignore_unauthenticated` | Boolean | When set to `true`, this plugin will stop notify the user to log in to Github, useful if you have the same config on multiple machines                                                                                                                                                                                                                                           | `false`       |
 
 ## 🧰 Commands
 
@@ -101,10 +101,10 @@ require("thanks").setup({
 
 ## 🚧 Caveats
 
--   If your plugin manager sync plugins on Neovim startup (default on Lazy.nvim, unsure about Packer), there's a good chance it does before thanks.nvim is loaded and therefor cannot star/unstar the plugins directly. Thoses new plugins will be starred/unstarred on the next sync that does not happen on startup or if you call `:ThanksAll` manually, if you want to always be up to date with your stars, set `star_on_startup` to `true`.
--   If you have `unstar_on_uninstall` set to `true` and you uninstall thanks.nvim, it won't be able to unstar itself as plugin manager don't let plugins say their last words before deleting them.
--   thanks.nvim knows which repos it already starred, but doesn't check if you manually starred/unstarred a repo, if you manually star a repo on github.com and then install it, it will tell you that you just starred it, even though it was already starred.
--   mini.deps does not support `star_on_install` as it does not have a way to run a function after installing a plugin (as far as I know), use `star_on_install` or run `:ThanksAll` manually.
+- If your plugin manager sync plugins on Neovim startup (default on Lazy.nvim, unsure about Packer), there's a good chance it does before thanks.nvim is loaded and therefor cannot star/unstar the plugins directly. Thoses new plugins will be starred/unstarred on the next sync that does not happen on startup or if you call `:ThanksAll` manually, if you want to always be up to date with your stars, set `star_on_startup` to `true`.
+- If you have `unstar_on_uninstall` set to `true` and you uninstall thanks.nvim, it won't be able to unstar itself as plugin manager don't let plugins say their last words before deleting them.
+- thanks.nvim knows which repos it already starred, but doesn't check if you manually starred/unstarred a repo, if you manually star a repo on github.com and then install it, it will tell you that you just starred it, even though it was already starred.
+- mini.deps does not support `star_on_install` as it does not have a way to run a function after installing a plugin (as far as I know), use `star_on_install` or run `:ThanksAll` manually.
 
 ## 🗑️ Uninstall
 
@@ -128,11 +128,11 @@ PRs and issues are always welcome. Make sure to provide as much context as possi
 
 Will do if there is demand (open issue or PR)
 
--   [x] Other plugin managers
--   [x] Unstar on uninstall
--   [x] Automatically detect plugin manager
--   [ ] Command to star/unstar a single plugin
--   [ ] Command to uninstall thanks.nvim
+- [x] Other plugin managers
+- [x] Unstar on uninstall
+- [x] Automatically detect plugin manager
+- [ ] Command to star/unstar a single plugin
+- [ ] Command to uninstall thanks.nvim
 
 ## 📜 License
 
@@ -142,5 +142,5 @@ MIT © [jsongerber](https://github.com/jsongerber/thanks/blob/master/LICENSE)
 
 See my other plugins:
 
--   [telescope-ssh-config](https://github.com/jsongerber/telescope-ssh-config): A plugin to list and connect to ssh hosts with telescope.nvim.
--   [nvim-px-to-rem](https://github.com/jsongerber/nvim-px-to-rem): A plugin to convert px to rem in Neovim.
+- [telescope-ssh-config](https://github.com/jsongerber/telescope-ssh-config): A plugin to list and connect to ssh hosts with telescope.nvim.
+- [nvim-px-to-rem](https://github.com/jsongerber/nvim-px-to-rem): A plugin to convert px to rem in Neovim.
