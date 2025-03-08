@@ -73,7 +73,16 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 		elseif unstarred then
 			stats.unstarred = stats.unstarred + 1
 		else
-			vim.notify("Failed to unstar " .. plugin_handle, vim.log.levels.ERROR)
+			stats.error = stats.error + 1
+			local answer = vim.fn.confirm(
+				"Failed to unstar " .. plugin_handle .. ". Try again next time?",
+				"&Yes\n&No",
+				2,
+				"Question"
+			)
+			if answer == 2 then
+				unstar_ignored = true
+			end
 		end
 
 		if unstar_ignored or unstarred then
