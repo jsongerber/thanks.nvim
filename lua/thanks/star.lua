@@ -57,13 +57,12 @@ M.star_interval = function(github, to_star, to_unstar, data, index, stats, calle
 		end
 	else
 		if config.ask_before_unstarring then
-			vim.ui.input({ prompt = "Do you want to unstar " .. plugin_handle .. "? (y/n)" }, function(input)
-				if input == "n" or input == "N" then
-					unstar_ignored = true
-				else
-					unstarred = github:star(plugin_handle, false)
-				end
-			end)
+			local answer = vim.fn.confirm("Do you want to unstar " .. plugin_handle .. "?", "&Yes\n&No", 1, "Question")
+			if answer == 2 then
+				unstar_ignored = true
+			else
+				unstarred = github:star(plugin_handle, false)
+			end
 		else
 			unstarred = github:star(plugin_handle, false)
 		end
