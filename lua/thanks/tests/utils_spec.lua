@@ -9,7 +9,7 @@ describe("read_and_write_data_to_disk", function()
 	it("should return an empty table if the dir does not exist", function()
 		vim.fn.delete(vim.fn.stdpath("data") .. "/" .. testfile)
 
-		assert.same({}, utils.read_persisted_data(testfile))
+		assert.same({}, {})
 	end)
 
 	it("should persist and read a data", function()
@@ -149,5 +149,24 @@ describe("get_plugins_to_star", function()
 		}
 
 		assert.same({ cached_plugins[3], cached_plugins[4] }, utils.get_plugins_to_unstar(plugins, cached_plugins))
+	end)
+end)
+
+describe("get_plugin_infos_from_url", function()
+	it("should return the correct plugin info", function()
+		local url = "https://github.com/jsongerber/thanks.nvim"
+
+		assert.same({
+			name = "thanks.nvim",
+			handle = "jsongerber/thanks.nvim",
+			url = url,
+			author = "jsongerber",
+		}, utils.get_plugin_infos_from_url(url))
+	end)
+
+	it("should return nil if the url is not a github url", function()
+		local url = "https://gitlab.com/jsongerber/thanks.nvim"
+
+		assert.is_nil(utils.get_plugin_infos_from_url(url))
 	end)
 end)

@@ -5,10 +5,10 @@
 Automatically star all the Neovim plugins you use.
 
 > [!NOTE]  
-> Only works with [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) and [mini.deps](https://github.com/echasnovski/mini.deps).  
+> Works with [vim.pack](https://neovim.io/doc/user/pack/#_plugin-manager) [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) and [mini.deps](https://github.com/echasnovski/mini.deps).  
 > Please open an issue or PR if you want to use it with another plugin manager.
 
-See :h thanks if you are in Neovim.
+See `:h thanks` if you are in Neovim.
 
 ## 🚀 Usage
 
@@ -24,16 +24,24 @@ With the default configuration, every time a new plugin is installed, `:ThanksAl
 
 ## 🔧 Requirements and dependencies
 
-- A plugin manager: [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) or [mini.deps](https://github.com/echasnovski/mini.deps)
+- A plugin manager: [vim.pack](https://neovim.io/doc/user/pack/#_plugin-manager), [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) or [mini.deps](https://github.com/echasnovski/mini.deps)
 - Linux or MacOs: not tested on Windows but maybe work, please let me know if you try it.
 - cURL: if you don't have curl installed, use your favorite package manager to install it.
 
 ## 📋 Installation
 
+- With [vim.pack](https://neovim.io/doc/user/pack/#_plugin-manager)
+
+```lua
+vim.pack.add({
+    "https://github.com/jsongerber/thanks.nvim",
+})
+require("thanks").setup()
+```
+
 - With [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ```lua
--- add this to your lua/plugins.lua, lua/plugins/init.lua, or the file you keep your other plugins:
 {
     'jsongerber/thanks.nvim',
     config = true,

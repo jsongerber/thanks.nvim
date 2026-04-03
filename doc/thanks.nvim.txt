@@ -60,7 +60,7 @@ you want to check on each Neovim startup, see |thanks-nvim-caveats|).
 ==============================================================================
 4. Requirements and dependencies                    *thanks-nvim-requirements*
 
-- A plugin manager: `lazy.nvim`, `packer` or `mini.deps`
+- A plugin manager: `vim.pack`, `lazy.nvim`, `packer` or `mini.deps`
 - `Linux` or `MacOs:` not tested on Windows but maybe work, please let me know if
   you try it.
 - `cURL:` if you don't have curl installed, use your favorite package manager to
@@ -68,6 +68,15 @@ you want to check on each Neovim startup, see |thanks-nvim-caveats|).
 
 ==============================================================================
 5. Installation                                     *thanks-nvim-installation*
+
+With `vim.pack`:
+
+>lua
+    vim.pack.add({
+        "https://github.com/jsongerber/thanks.nvim",
+    })
+    require("thanks").setup()
+<
 
 With `lazy.nvim`:
 

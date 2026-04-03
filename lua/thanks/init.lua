@@ -29,14 +29,17 @@ M.setup = function(options)
 	M.config = M.get_config(options)
 
 	local utils = require("thanks.utils")
-	local plugin_manager = utils.get_plugin_manager()
+	local plugin_managers = utils.get_plugin_managers()
 
-	if plugin_manager ~= "lazy" and plugin_manager ~= "packer" and plugin_manager ~= "mini.deps" then
-		vim.notify("Only Lazy, Packer and mini.deps plugin managers are supported at the moment", vim.log.levels.ERROR)
+	if not #plugin_managers then
+		vim.notify(
+			"Only vim.pack, Lazy, Packer and mini.deps plugin managers are supported at the moment",
+			vim.log.levels.ERROR
+		)
 		return
 	end
 
-	if plugin_manager == "mini.deps" and M.config.star_on_install then
+	if M.config.star_on_install and vim.tbl_contains(plugin_managers, "mini.deps") then
 		vim.notify(
 			"star_on_install is not supported by `mini.deps`, please set it to false and use `star_on_startup` or `:ThanksAll`",
 			vim.log.levels.WARN
@@ -49,7 +52,7 @@ M.setup = function(options)
 	end, {})
 
 	vim.api.nvim_create_user_command("ThanksAll", function()
-		M.star_all(true, plugin_manager)
+		M.star_all(true, plugin_managers)
 	end, {})
 
 	-- Log out
@@ -71,40 +74,50 @@ M.setup = function(options)
 
 		-- Trigger star_all on startup
 		vim.schedule(function()
-			M.star_all(false, plugin_manager)
+			M.star_all(false, plugin_managers)
 		end)
 	end
 
-	if M.config.star_on_install and plugin_manager ~= "mini.deps" then
-		local event
-		if plugin_manager == "lazy" then
-			event = { "LazyInstall", "LazyClean" }
-		elseif plugin_manager == "packer" then
-			event = "PackerComplete"
-		elseif plugin_manager == "mini.deps" then
-			event = {}
+	if M.config.star_on_install then
+		local event = {}
+		for _, plugin_manager in ipairs(plugin_managers) do
+			if plugin_manager == "lazy" then
+				event = vim.list_extend({ "LazyInstall", "LazyClean" }, event)
+			elseif plugin_manager == "packer" then
+				event = vim.list_extend({ "PackerComplete" }, event)
+			elseif plugin_manager == "vim.pack" then
+				vim.api.nvim_create_autocmd("PackChanged", {
+					callback = function()
+						vim.schedule(function()
+							M.star_all(false, plugin_managers)
+						end)
+					end,
+				})
+			end
 		end
 
-		local augroup = vim.api.nvim_create_augroup("ThanksStarAll", {
-			clear = true,
-		})
-		vim.api.nvim_create_autocmd("User", {
-			group = augroup,
-			pattern = event,
-			callback = function()
-				vim.schedule(function()
-					M.star_all(false, plugin_manager)
-				end)
-			end,
-		})
+		if #event then
+			local augroup = vim.api.nvim_create_augroup("ThanksStarAll", {
+				clear = true,
+			})
+			vim.api.nvim_create_autocmd("User", {
+				group = augroup,
+				pattern = event,
+				callback = function()
+					vim.schedule(function()
+						M.star_all(false, plugin_managers)
+					end)
+				end,
+			})
+		end
 	end
 end
 
 ---@param called_from_command boolean
----@param plugin_manager string
-M.star_all = function(called_from_command, plugin_manager)
+---@param plugin_managers string[]
+M.star_all = function(called_from_command, plugin_managers)
 	local utils = require("thanks.utils")
-	local installed_plugins = utils.get_plugins(plugin_manager)
+	local installed_plugins = utils.get_plugins(plugin_managers)
 	local data = utils.read_persisted_data() or {}
 	local cached_plugins = data.starred_plugins or {}
 
