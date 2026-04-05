@@ -63,8 +63,7 @@ use({
 
 ```lua
 add({
-	source = "/Users/jasongerber/Documents/neovim-plugins/thanks.nvim",
-	checkout = 'dev'
+	source = "jsongerber/thanks.nvim",
 })
 
 require('thanks').setup({
