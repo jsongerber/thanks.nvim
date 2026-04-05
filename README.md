@@ -5,7 +5,7 @@
 Automatically star all the Neovim plugins you use.
 
 > [!NOTE]  
-> Works with [vim.pack](https://neovim.io/doc/user/pack/#_plugin-manager) [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) and [mini.deps](https://github.com/echasnovski/mini.deps).  
+> Works with [vim.pack](https://neovim.io/doc/user/pack/#_plugin-manager), [lazy.nvim](https://github.com/folke/lazy.nvim), [packer](https://github.com/wbthomason/packer.nvim) and [mini.deps](https://github.com/echasnovski/mini.deps).  
 > Please open an issue or PR if you want to use it with another plugin manager.
 
 See `:h thanks` if you are in Neovim.
